@@ -123,6 +123,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         $observacion = $input_observacion;
     }
 
+  
 
     // Check input errors before inserting in database
     if(empty($fecha_cliente_err) && empty($codigo_cliente_err) && empty($nombre_cliente_err) && empty($direccion_err) && empty($distrito_err) && empty($latitud_err) && empty($longitud_err) && empty($guia_trans_err) && empty($guia_remi_err) && empty($guia_cliente_err) && empty($estado_err) && empty($observacion_err)){
@@ -131,6 +132,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         // Bind variables to the prepared statement as parameters
         if($stmt = mysqli_prepare($link,$sql)){
             mysqli_stmt_bind_param($stmt, "ssssssssssss", $param_fecha_cliente,$param_codigo_cliente,$param_nombre_cliente,$param_direccion,$param_distrito,$param_latitud,$param_longitud,$param_guia_trans,$param_guia_remi,$param_guia_cliente,$param_estado,$param_observacion);
+           
+            
             // Set parameters
             $param_fecha_cliente = $fecha_cliente;
             $param_codigo_cliente = $codigo_cliente;
@@ -159,7 +162,17 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     }    
 }
 ?>
- 
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="/resources/demos/style.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script>
+  $( function() {
+    $( "#datepicker" ).datepicker();
+  } );
+</script>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -186,7 +199,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
                         <div class="form-group <?php echo (!empty($fecha_cliente_err)) ? 'has-error' : ''; ?>">
                             <label>Fecha</label>
-                            <input type="text" name="fechacliente" class="form-control" value="<?php echo $fecha_cliente; ?>">
+                            <input type="text" id="datepicker" name="fechacliente" class="form-control" value="<?php echo $fecha_cliente; ?>">
                             <span class="help-block"><?php echo $fecha_cliente_err;?></span>
                         </div>
 

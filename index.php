@@ -28,7 +28,7 @@
     
         <div class="container">
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                <a class="navbar-brand" href="#">Entregas</a>
+                <a class="navbar-brand" href="index.php">Entregas</a>
             </nav>
         </div>
     
@@ -43,8 +43,9 @@
 
             if($_SERVER['REQUEST_METHOD'] == 'POST'){
                 $where="";
-            $nombre=$_POST['xnombre'];
-            $codigo=$_POST['xcodigo'];
+                $nombre=$_POST['xnombre'];
+                $codigo=$_POST['xcodigo'];
+                $fecha=$_POST['xfecha'];
 
             if(isset($_POST['buscar']))
             {
@@ -60,22 +61,30 @@
                 }
             }
 
+            if(isset($_POST['buscar'])){
+                $where = "where Fecha_Cliente like '".$fecha."%'";
+            }
+
+            
+
+
+
             
 
                 $sql = "SELECT * FROM entregas $where";
                 $result = mysqli_query($link, $sql);
                 $row = mysqli_fetch_array($result);
+                
             }
 
             
             ?>
 
             <form method="post">
-                
-				<input type="text" placeholder="Nombre" name="xnombre"/>
+                <input type="text" placeholder="Fecha" name="xfecha"/>
                 <input type="text" placeholder="Codigo" name="xcodigo"/>
-				
-
+				<input type="text" placeholder="Nombre" name="xnombre"/>
+            
 				<button name="buscar" type="submit">Buscar</button>
 			</form>
         </div>
@@ -92,6 +101,7 @@
                     <?php
                     // Include config file
                     require_once "config.php";
+                    //error_reporting(E_ALL & ~E_DEPRECATED & ~E_STRICT & ~E_WARNING & ~E_NOTICE);
                     
                     // Attempt select query execution
                     $sql = "SELECT * FROM entregas $where";
@@ -106,13 +116,13 @@
                                         echo "<th>Nombre Cliente</th>";
                                         echo "<th>Direccion llegada</th>";
                                         echo "<th>Distrito</th>";
-                                        echo "<th>Latitud</th>";
-                                        echo "<th>Longitud</th>";
-                                        echo "<th>Guia transportista</th>";
-                                        echo "<th>Guia Remisión</th>";
-                                        echo "<th>Guia Cliente</th>";
+                                        //echo "<th>Latitud</th>";
+                                        //echo "<th>Longitud</th>";
+                                        //echo "<th>Guia transportista</th>";
+                                        //echo "<th>Guia Remisión</th>";
+                                        //echo "<th>Guia Cliente</th>";
                                         echo "<th>Estado</th>";
-                                        echo "<th>Observacion</th>";
+                                        //echo "<th>Observacion</th>";
                                         echo "<th>Accion</th>";
                                     echo "</tr>";
                                 echo "</thead>";
@@ -125,17 +135,17 @@
                                         echo "<td>" . $row['Nombre_Cliente'] . "</td>";
                                         echo "<td>" . $row['Direccion_Llegada'] . "</td>";
                                         echo "<td>" . $row['Distrito'] . "</td>";
-                                        echo "<td>" . $row['Latitud'] . "</td>";
-                                        echo "<td>" . $row['Longitud'] . "</td>";
-                                        echo "<td>" . $row['Gui_Trans'] . "</td>";
-                                        echo "<td>" . $row['Guia_Remi'] . "</td>";
-                                        echo "<td>" . $row['Guia_Cliente'] . "</td>";
+                                        //echo "<td>" . $row['Latitud'] . "</td>";
+                                        //echo "<td>" . $row['Longitud'] . "</td>";
+                                        //echo "<td>" . $row['Gui_Trans'] . "</td>";
+                                        //echo "<td>" . $row['Guia_Remi'] . "</td>";
+                                        //echo "<td>" . $row['Guia_Cliente'] . "</td>";
                                         echo "<td>" . $row['Estado'] . "</td>";
-                                        echo "<td>" . $row['Observaciones'] . "</td>";
+                                        //echo "<td>" . $row['Observaciones'] . "</td>";
                                         echo "<td>";
-                                            echo "<a href='read.php?id=". $row['Id'] ."' title='View Record' data-toggle='tooltip'><span class='glyphicon glyphicon-eye-open'></span></a>";
-                                            echo "<a href='update.php?id=". $row['Id'] ."' title='Update Record' data-toggle='tooltip'><span class='glyphicon glyphicon-pencil'></span></a>";
-                                            echo "<a href='delete.php?id=". $row['Id'] ."' title='Delete Record' data-toggle='tooltip'><span class='glyphicon glyphicon-trash'></span></a>";
+                                            echo "<a href='read.php?id=". $row['Id'] ."' title='View Entrega' data-toggle='tooltip'><span class='glyphicon glyphicon-eye-open'></span></a>";
+                                            echo "<a href='update.php?id=". $row['Id'] ."' title='Update Entrega' data-toggle='tooltip'><span class='glyphicon glyphicon-pencil'></span></a>";
+                                            echo "<a href='delete.php?id=". $row['Id'] ."' title='Delete Entrega' data-toggle='tooltip'><span class='glyphicon glyphicon-trash'></span></a>";
                                         echo "</td>";
                                     echo "</tr>";
                                 }
@@ -149,7 +159,7 @@
                     } else{
                         echo "ERROR: Could not able to execute $sql. " . mysqli_error($link);
                     }
- 
+                        
                     // Close connection
                     mysqli_close($link);
                     ?>
