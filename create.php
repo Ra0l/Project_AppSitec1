@@ -123,7 +123,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         $observacion = $input_observacion;
     }
 
-  
+    
+    
 
     // Check input errors before inserting in database
     if(empty($fecha_cliente_err) && empty($codigo_cliente_err) && empty($nombre_cliente_err) && empty($direccion_err) && empty($distrito_err) && empty($latitud_err) && empty($longitud_err) && empty($guia_trans_err) && empty($guia_remi_err) && empty($guia_cliente_err) && empty($estado_err) && empty($observacion_err)){
@@ -131,8 +132,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         $sql = "INSERT INTO entregas (Fecha_Cliente,Cod_Cliente,Nombre_Cliente,Direccion_Llegada,Distrito,Latitud,Longitud,Gui_Trans,Guia_Remi,Guia_Cliente,Estado,Observaciones) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
         // Bind variables to the prepared statement as parameters
         if($stmt = mysqli_prepare($link,$sql)){
+            
             mysqli_stmt_bind_param($stmt, "ssssssssssss", $param_fecha_cliente,$param_codigo_cliente,$param_nombre_cliente,$param_direccion,$param_distrito,$param_latitud,$param_longitud,$param_guia_trans,$param_guia_remi,$param_guia_cliente,$param_estado,$param_observacion);
            
+            
             
             // Set parameters
             $param_fecha_cliente = $fecha_cliente;
@@ -169,7 +172,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script>
   $( function() {
-    $( "#datepicker" ).datepicker();
+    $( "#datepicker" ).datepicker({dateFormat: 'yy-mm-dd'});
+        var minValue = $(this).val();
+        minValue=$.datepicker.parseDate('yy-mm-dd', minValue);
+        minValue.setDate(minValue.getDate()+1);
+        $("datepicker").datepicker("option","minDate",minValue);
   } );
 </script>
 
